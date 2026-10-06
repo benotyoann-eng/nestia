@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nestia – L'app de sécurité familiale</title>
+<meta name="description" content="Nestia vous prévient quand vos proches arrivent à bon port. Localisation en temps réel, zones de sécurité, bouton SOS et chat familial. Gratuit sur iPhone et Android.">
+<meta name="theme-color" content="#231C4F">
+<meta property="og:title" content="Nestia – L'app de sécurité familiale">
+<meta property="og:description" content="Sachez que vos proches sont bien arrivés. Sans même appeler.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 110'%3E%3Cpath d='M50 5 L91 18 V52 C91 79 72 97 50 105 C28 97 9 79 9 52 V18 Z' fill='none' stroke='%234B2E83' stroke-width='9' stroke-linejoin='round'/%3E%3Cpath d='M50 36 C40 29 40 19 46 19 C48.5 19 50 21 50 23.5 C50 21 51.5 19 54 19 C60 19 60 29 50 36Z' fill='%23A8407F'/%3E%3Ccircle cx='34' cy='50' r='8' fill='%232E2266'/%3E%3Ccircle cx='66' cy='50' r='8' fill='%232E2266'/%3E%3Cpath d='M21 84 Q21 61 34 61 Q45 61 45 73 V84 Z' fill='%232E2266'/%3E%3Cpath d='M79 84 Q79 61 66 61 Q55 61 55 73 V84 Z' fill='%232E2266'/%3E%3Ccircle cx='50' cy='72' r='6' fill='%232E2266'/%3E%3Cpath d='M40 94 Q40 81 50 81 Q60 81 60 94 Z' fill='%232E2266'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#231C4F; --indigo:#4B2E83; --plum:#7A2E6B; --plum-2:#8A3579; --rose:#A8407F;
+  --muted:#564F75; --faint:#8A849F; --line:#E6E0F0; --bg:#FBF9FD; --lilac:#EFE8F7; --pink:#F6E6F0; --white:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.12}
+h1,h2{font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:-.02em}
+p{margin:0}
+a{color:var(--indigo)}
+img,svg{display:block}
+.wrap{max-width:1248px;margin:0 auto;padding:0 20px}
+section{scroll-margin-top:80px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:20;background:rgba(251,249,253,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent}
+.header .wrap{height:72px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand span{font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;letter-spacing:.03em}
+.nav{display:flex;align-items:center;gap:32px;font-weight:500}
+.nav a{text-decoration:none;color:var(--ink)}
+.nav .links{display:none;gap:32px}
+.pill{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:var(--indigo);color:#fff!important;font-weight:700;font-size:15px}
+
+/* Buttons */
+.stores{display:flex;flex-direction:column;gap:12px}
+.store{display:flex;align-items:center;justify-content:center;gap:14px;min-height:62px;padding:10px 26px 10px 20px;border-radius:16px;text-decoration:none;background:var(--ink);color:#fff;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease}
+.store:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(35,28,79,.25)}
+.store:focus-visible,.pill:focus-visible,.mail:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+.store .t small{font-size:13px}
+.store .t b{font-size:20px}
+.store.light{background:#fff;color:var(--ink)}
+.store.light svg{stroke:var(--ink)}
+.store.on-dark{background:#fff;color:var(--ink);border-color:#fff}
+.store.on-dark svg{stroke:var(--ink)}
+.checks{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;font-weight:500;color:var(--muted)}
+.checks span{display:flex;align-items:center;gap:6px}
+
+/* Hero */
+.hero{padding:24px 0 8px}
+.hero .wrap{display:grid;gap:40px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:20px}
+.badge{align-self:flex-start;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--plum);background:var(--pink);padding:7px 12px;border-radius:999px}
+.hero h1{font-size:clamp(34px,6vw,64px)}
+.hero h1 em{font-style:normal;color:var(--plum-2)}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:540px}
+.phone-stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:540px}
+.phone-stage::before{content:"";position:absolute;width:min(92vw,520px);aspect-ratio:1;border-radius:50%;background:var(--lilac)}
+.phone{position:relative;width:260px;height:530px;padding:10px;background:var(--ink);border-radius:42px;box-shadow:0 30px 60px rgba(35,28,79,.25)}
+.screen{position:relative;width:100%;height:100%;border-radius:33px;overflow:hidden;background:#ECE9F2}
+.road{position:absolute;background:#fff}
+.zone{position:absolute;left:22px;top:240px;width:132px;height:132px;border-radius:50%;border:2px dashed var(--plum-2);background:rgba(138,53,121,.1)}
+.pin{position:absolute;border-radius:50%;border:3px solid #fff;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+.notif{position:absolute;left:12px;right:12px;top:34px;background:#fff;border-radius:18px;padding:12px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 20px rgba(35,28,79,.12);animation:drop .7s ease .4s both}
+@keyframes drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.notif{animation:none}html{scroll-behavior:auto}}
+.notif .ic{width:34px;height:34px;flex-shrink:0;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.notif b{font-size:13px;display:block}
+.notif small{font-size:11px;color:var(--muted)}
+.family{position:absolute;left:12px;right:12px;bottom:12px;background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.family h4{margin:0;font-family:'Montserrat',sans-serif;font-weight:800;font-size:14px}
+.member{display:flex;align-items:center;gap:10px}
+.av{width:28px;height:28px;border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.member b{font-size:13px;display:block}
+.member small{font-size:11px;color:var(--muted)}
+
+/* Sections */
+.sec{padding:64px 0}
+.sec h2{font-size:clamp(28px,3.4vw,44px)}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;max-width:820px}
+.sec-head p{font-size:18px;color:var(--muted)}
+.grid{display:grid;gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:10px}
+.card h3{font-size:20px;font-weight:700}
+.card p{color:var(--muted);font-size:16px}
+.time{font-size:13px;font-weight:700;color:var(--plum-2);text-transform:uppercase;letter-spacing:.08em}
+.feat{display:flex;gap:16px;align-items:flex-start}
+.feat .ic,.big-ic{flex-shrink:0;border-radius:16px;background:var(--lilac);display:flex;align-items:center;justify-content:center}
+.feat .ic{width:52px;height:52px}
+.feat h3{font-size:19px;font-weight:700;margin-bottom:4px}
+.feat p{color:var(--muted);font-size:15px}
+
+.duo{display:grid;gap:16px}
+.sos{background:var(--plum);color:#fff;border:none}
+.sos p{color:#F6E6F0}
+.sos-dot{width:76px;height:76px;border-radius:50%;background:#fff;color:var(--plum);font-family:'Montserrat',sans-serif;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(255,255,255,.15)}
+.big-ic{width:76px;height:76px;border-radius:50%}
+.duo h2{font-size:clamp(24px,2.6vw,34px)}
+.battery{margin-top:16px;background:var(--lilac);border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:18px}
+.battery .big-ic{background:#fff;border-radius:22px}
+.battery h2{font-size:clamp(24px,2.6vw,32px);margin-bottom:6px}
+.battery p{color:var(--muted);font-size:17px;max-width:900px}
+
+.steps{background:var(--ink);color:#fff;border-radius:32px;padding:36px 24px;display:grid;gap:32px}
+.steps h2{font-size:clamp(26px,3vw,40px);margin-bottom:24px}
+.step{display:flex;gap:16px;margin-bottom:20px}
+.num{width:40px;height:40px;flex-shrink:0;border-radius:50%;background:var(--rose);font-weight:700;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:18px;font-weight:700}
+.step p{color:#D6D1E6;font-size:15px}
+.steps-cta{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.steps-cta p{font-size:20px;font-weight:700;margin-bottom:6px}
+
+/* Pricing */
+.center{text-align:center;margin-left:auto;margin-right:auto;align-items:center}
+.plans{display:grid;gap:16px}
+.plan{background:#fff;border:1px solid var(--line);border-radius:26px;padding:30px;display:flex;flex-direction:column;gap:14px}
+.plan h3{font-size:20px;font-weight:700}
+.price{font-family:'Montserrat',sans-serif;font-weight:800;font-size:44px;line-height:1}
+.price small{font-family:'DM Sans',sans-serif;font-weight:500;font-size:17px}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.plan li{display:flex;gap:8px}
+.plan li::before{content:"✓";color:var(--plum-2);font-weight:700}
+.plan.hot{background:var(--indigo);color:#fff;border-color:var(--indigo);box-shadow:0 20px 40px rgba(75,46,131,.25)}
+.plan.hot ul{color:#fff}
+.plan.hot li::before{color:#F6E6F0}
+.tag{font-size:12px;font-weight:700;background:#fff;color:var(--plum);padding:5px 10px;border-radius:999px}
+.plan-top{display:flex;justify-content:space-between;align-items:center}
+
+.compare{margin-top:40px}
+.compare h3{font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(22px,2.4vw,30px);margin-bottom:16px}
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:22px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:12px 4px;text-align:center;border-bottom:1px solid #EEE9F4}
+th:first-child,td:first-child{text-align:left;padding-left:12px}
+tr:last-child td{border-bottom:none}
+thead th{font-weight:700;padding-top:16px;padding-bottom:16px}
+thead th.p{background:var(--indigo);color:#fff}
+td.p{background:#F5F1FA;font-weight:700}
+.y{color:var(--plum-2);font-weight:700}
+.n{color:var(--faint)}
+
+/* FAQ */
+.faq{display:grid;gap:24px}
+details{border-bottom:1px solid var(--line);padding:4px 0}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;font-weight:700;font-size:17px;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:24px;color:var(--indigo);font-weight:500;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding-bottom:18px;font-size:16px}
+
+/* CTA + contact */
+.final{background:var(--lilac);border-radius:32px;padding:40px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.final h2{font-size:clamp(28px,3.4vw,46px)}
+.final p{color:var(--muted);font-size:17px}
+.final .stores{width:100%;max-width:420px;margin-top:8px}
+.contact{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px 24px;display:flex;flex-direction:column;gap:18px}
+.contact h2{font-size:clamp(24px,2.6vw,32px)}
+.contact p{color:var(--muted);font-size:17px;margin-top:6px}
+.mail{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 24px;border-radius:14px;background:var(--indigo);color:#fff;text-decoration:none;font-weight:700;font-size:17px;word-break:break-all}
+.mail-alt{font-size:14px;color:var(--muted)}
+.mail-alt button{font:inherit;color:var(--indigo);background:none;border:none;padding:6px 4px;cursor:pointer;text-decoration:underline;font-weight:700;min-height:44px}
+
+footer{padding:40px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
+footer a{color:var(--muted)}
+
+/* Sticky mobile CTA */
+.sticky-cta{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border-radius:16px;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;font-size:16px;box-shadow:0 12px 30px rgba(35,28,79,.35);transform:translateY(140%);transition:transform .25s ease}
+.sticky-cta.show{transform:none}
+
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.toast.show{opacity:1}
+
+/* Desktop */
+@media (min-width:640px){
+  .stores{flex-direction:row;flex-wrap:wrap}
+  .final .stores{justify-content:center;max-width:none;width:auto}
+  .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .duo{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .battery{flex-direction:row;align-items:center;padding:36px 44px}
+  .contact{flex-direction:row;align-items:center;justify-content:space-between;padding:40px 48px}
+  table{font-size:16px}
+  th:first-child,td:first-child{padding-left:28px}
+  th,td{padding:16px 12px}
+}
+@media (min-width:960px){
+  .wrap{padding:0 48px}
+  .header .wrap{height:84px}
+  .nav .links{display:flex}
+  .hero{padding:40px 0 24px}
+  .hero .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:56px}
+  .phone-stage{min-height:640px}
+  .phone{width:300px;height:612px}
+  .sec{padding:96px 0}
+  .grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .grid.four .feat{flex-direction:column}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr));padding:56px 64px;align-items:center}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .faq{grid-template-columns:1fr 2fr;gap:56px}
+  .final{padding:64px}
+  footer .wrap{flex-direction:row;justify-content:space-between}
+  .sticky-cta{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Nestia, retour en haut">
+      <svg width="34" height="37" viewBox="0 0 100 110" fill="none" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2E2266"/><stop offset="1" stop-color="#9B3A86"/></linearGradient></defs><path d="M50 5 L91 18 V52 C91 79 72 97 50 105 C28 97 9 79 9 52 V18 Z" stroke="url(#g1)" stroke-width="7" stroke-linejoin="round"/><path d="M50 36 C40 29 40 19 46 19 C48.5 19 50 21 50 23.5 C50 21 51.5 19 54 19 C60 19 60 29 50 36Z" fill="#A8407F"/><circle cx="34" cy="50" r="8" fill="#2E2266"/><circle cx="66" cy="50" r="8" fill="#2E2266"/><path d="M21 84 Q21 61 34 61 Q45 61 45 73 V84 Z" fill="#2E2266"/><path d="M79 84 Q79 61 66 61 Q55 61 55 73 V84 Z" fill="#2E2266"/><circle cx="50" cy="72" r="6" fill="#2E2266"/><path d="M40 94 Q40 81 50 81 Q60 81 60 94 Z" fill="#2E2266"/></svg>
+      <span>NESTIA</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <div class="links">
+        <a href="#tarifs">Tarifs</a>
+        <a href="#faq">Questions</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="pill" href="#telecharger">Télécharger</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="#A8407F" aria-hidden="true"><path d="M12 21C5 16 3 12 3 8.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9 2.5C21 12 19 16 12 21z"/></svg>L'app de sécurité familiale</span>
+      <h1>Sachez que vos proches sont bien arrivés. <em>Sans même appeler.</em></h1>
+      <p class="lead">Nestia vous prévient quand vos enfants arrivent à l'école, quand votre ado rentre le soir ou quand vos parents sont bien chez eux.</p>
+      <div class="stores" data-stores></div>
+      <div class="checks">
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Gratuit</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>iPhone &amp; Android</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sans engagement</span>
+      </div>
+    </div>
+
+    <div class="phone-stage" aria-hidden="true">
+      <div class="phone"><div class="screen">
+        <div class="road" style="left:-40px;top:160px;width:420px;height:22px;transform:rotate(-18deg)"></div>
+        <div class="road" style="left:135px;top:-20px;width:18px;height:640px;transform:rotate(10deg)"></div>
+        <div class="zone"></div>
+        <div class="pin" style="left:64px;top:283px;width:44px;height:44px;background:#4B2E83">L</div>
+        <div class="pin" style="left:180px;top:205px;width:38px;height:38px;background:#A8407F;font-size:13px">T</div>
+        <div class="notif">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5V11c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V5.5z"/></svg></div>
+          <div><b>Léa est arrivée à l'école</b><small>Zone « École » · à l'instant</small></div>
+        </div>
+        <div class="family">
+          <h4>Ma famille</h4>
+          <div class="member"><div class="av" style="background:#4B2E83">L</div><div><b>Léa</b><small>À l'école</small></div></div>
+          <div class="member"><div class="av" style="background:#A8407F">T</div><div><b>Tom</b><small>En route vers la maison</small></div></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MOMENTS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2>Les petits moments où Nestia vous enlève un poids</h2></div>
+    <div class="grid three">
+      <article class="card"><span class="time">8 h 25</span><h3>La sortie d'école</h3><p>Une notification quand votre enfant arrive à l'école. Vous partez travailler l'esprit tranquille.</p></article>
+      <article class="card"><span class="time">23 h 10</span><h3>Le retour du soir</h3><p>Votre ado rentre de soirée ? Voyez qu'il est en chemin, sans l'appeler toutes les dix minutes.</p></article>
+      <article class="card"><span class="time">Chaque jour</span><h3>Des parents âgés</h3><p>Sachez qu'ils sont bien rentrés de leurs courses, même quand vous habitez loin.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- SOS / CHAT / BATTERIE -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="duo">
+      <article class="card sos">
+        <div class="sos-dot">SOS</div>
+        <h2>Un problème ? Un seul geste.</h2>
+        <p>Un appui sur le bouton SOS et tout votre cercle est alerté, avec votre position. Inclus dès l'offre gratuite.</p>
+      </article>
+      <article class="card">
+        <div class="big-ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8"/><path d="M8 12.5h5"/></svg></div>
+        <h2>Le chat de la famille, au bon endroit</h2>
+        <p>« Je suis arrivé », « Je pars dans 5 min » : échangez avec votre cercle directement dans Nestia, à côté de la carte.</p>
+      </article>
+    </div>
+    <div class="battery">
+      <div class="big-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="17" height="10" rx="2.5"/><path d="M22 10.5v3"/><path d="M11.5 8.5l-2.5 3.5h4l-2.5 3.5"/></svg></div>
+      <div>
+        <h2>Nestia ménage votre batterie</h2>
+        <p>Quand vous êtes immobile, Nestia ralentit automatiquement le suivi : une position toutes les 5 minutes suffit. Votre téléphone tient la journée, votre famille reste rassurée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><h2>Tout ce qu'il faut, rien de compliqué</h2></div>
+    <div class="grid four">
+      <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><h3>Position en temps réel</h3><p>Toute la famille sur une carte claire.</p></div></div>
+      <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="3"/></svg></div><div><h3>Zones de sécurité</h3><p>Alertes d'arrivée et de départ : maison, école, travail.</p></div></div>
+      <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15 15.5c2.8-.6 6 1.2 6 4.5"/></svg></div><div><h3>Cercles familiaux</h3><p>Famille, grands-parents, amis : un cercle chacun.</p></div></div>
+      <div class="feat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4B2E83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 2.5V11c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V5.5z"/></svg></div><div><h3>Vie privée respectée</h3><p>Chacun rejoint le cercle sur invitation et garde la main.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ÉTAPES -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="steps">
+      <div>
+        <h2>Prêt en trois étapes</h2>
+        <div class="step"><span class="num">1</span><div><h3>Téléchargez Nestia</h3><p>Gratuit sur l'App Store et Google Play.</p></div></div>
+        <div class="step"><span class="num">2</span><div><h3>Invitez vos proches</h3><p>Ils rejoignent votre cercle en un geste.</p></div></div>
+        <div class="step" style="margin-bottom:0"><span class="num">3</span><div><h3>Ajoutez vos lieux</h3><p>Maison, école… Nestia veille pour vous.</p></div></div>
+      </div>
+      <div class="steps-cta">
+        <p>Votre cercle peut être prêt avant ce soir.</p>
+        <div class="stores" data-stores data-variant="on-dark"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section class="sec" id="tarifs" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center"><h2>Commencez gratuitement</h2><p>Passez à Premium seulement si vous en avez besoin. Sans engagement.</p></div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Gratuit</h3>
+        <div class="price">0 €</div>
+        <ul><li>Localisation en temps réel</li><li>1 cercle familial</li><li>1 zone de sécurité</li><li>Bouton SOS</li><li>Chat familial</li><li>7 jours d'historique</li></ul>
+      </article>
+      <article class="plan hot">
+        <div class="plan-top"><h3>Premium</h3><span class="tag">Le plus choisi</span></div>
+        <div class="price">4,99 € <small>/ mois</small></div><small style="opacity:.85">ou 49,99 € / an</small>
+        <ul><li>Tout le plan Gratuit</li><li>Cercles illimités</li><li>Zones de sécurité illimitées</li><li>30 jours d'historique</li><li>Support prioritaire</li></ul>
+      </article>
+      <article class="plan">
+        <h3>Famille</h3>
+        <div class="price">9,99 € <small>/ mois</small></div><small style="color:var(--muted)">ou 99,99 € / an</small>
+        <ul><li>Tout le plan Premium</li><li>Pour tous les membres du cercle</li><li>Plusieurs profils enfants</li></ul>
+      </article>
+    </div>
+
+    <div class="compare">
+      <h3>Comparez les offres</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col"><span class="n" style="font-weight:500">Fonctionnalité</span></th><th scope="col">Gratuit</th><th scope="col" class="p">Premium</th><th scope="col">Famille</th></tr></thead>
+          <tbody>
+            <tr><td>Position en temps réel</td><td class="y">✓</td><td class="p y">✓</td><td class="y">✓</td></tr>
+            <tr><td>SOS &amp; chat familial</td><td class="y">✓</td><td class="p y">✓</td><td class="y">✓</td></tr>
+            <tr><td>Cercles</td><td>1</td><td class="p">Illimités</td><td><b>Illimités</b></td></tr>
+            <tr><td>Zones de sécurité</td><td>1</td><td class="p">Illimitées</td><td><b>Illimitées</b></td></tr>
+            <tr><td>Historique</td><td>7 j</td><td class="p">30 j</td><td><b>30 j</b></td></tr>
+            <tr><td>Support prioritaire</td><td class="n">—</td><td class="p y">✓</td><td class="y">✓</td></tr>
+            <tr><td>Pour tout le cercle</td><td class="n">—</td><td class="p n">—</td><td class="y">✓</td></tr>
+            <tr><td>Profils enfants</td><td class="n">—</td><td class="p n">—</td><td class="y">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap faq">
+    <h2 style="font-size:clamp(28px,3.2vw,40px)">Vos questions, nos réponses</h2>
+    <div>
+      <details><summary>Nestia est-il vraiment gratuit ?</summary><p>Oui. Le plan Gratuit comprend la localisation en temps réel, 1 cercle, 1 zone de sécurité, le SOS et le chat, sans limite de durée. Premium et Famille sont en option.</p></details>
+      <details><summary>Mes proches savent-ils qu'ils partagent leur position ?</summary><p>Oui. Chacun rejoint le cercle sur invitation et accepte le partage. Rien n'est caché.</p></details>
+      <details><summary>Est-ce que ça vide la batterie ?</summary><p>Non. Quand vous êtes immobile, Nestia ralentit automatiquement le suivi (une position toutes les 5 minutes).</p></details>
+      <details><summary>iPhone et Android dans le même cercle ?</summary><p>Bien sûr. Nestia fonctionne sur les deux, dans un même cercle.</p></details>
+      <details><summary>Puis-je arrêter mon abonnement ?</summary><p>À tout moment, depuis les réglages de l'App Store ou de Google Play.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL + CONTACT -->
+<section class="sec" id="telecharger" style="padding-top:0">
+  <div class="wrap">
+    <div class="final">
+      <svg width="60" height="66" viewBox="0 0 100 110" fill="none" aria-hidden="true"><defs><linearGradient id="g2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2E2266"/><stop offset="1" stop-color="#9B3A86"/></linearGradient></defs><path d="M50 5 L91 18 V52 C91 79 72 97 50 105 C28 97 9 79 9 52 V18 Z" stroke="url(#g2)" stroke-width="7" stroke-linejoin="round"/><path d="M50 36 C40 29 40 19 46 19 C48.5 19 50 21 50 23.5 C50 21 51.5 19 54 19 C60 19 60 29 50 36Z" fill="#A8407F"/><circle cx="34" cy="50" r="8" fill="#2E2266"/><circle cx="66" cy="50" r="8" fill="#2E2266"/><path d="M21 84 Q21 61 34 61 Q45 61 45 73 V84 Z" fill="#2E2266"/><path d="M79 84 Q79 61 66 61 Q55 61 55 73 V84 Z" fill="#2E2266"/><circle cx="50" cy="72" r="6" fill="#2E2266"/><path d="M40 94 Q40 81 50 81 Q60 81 60 94 Z" fill="#2E2266"/></svg>
+      <h2>Protégez votre famille dès aujourd'hui</h2>
+      <p>Gratuit · iPhone &amp; Android · Sans engagement</p>
+      <div class="stores" data-stores data-both="1"></div>
+    </div>
+
+    <div class="contact" id="contact">
+      <div>
+        <h2>Une question ? Écrivez-nous</h2>
+        <p>Une suggestion, un souci, un partenariat : l'équipe Nestia vous lit.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:stretch">
+        <a class="mail" data-mail href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+          <span data-mail-text></span>
+        </a>
+        <span class="mail-alt">Pas d'app mail ? <button type="button" data-copy>Copier l'adresse</button></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Nestia. Tous droits réservés.</span>
+    <nav aria-label="Liens légaux">
+      <a href="cgu.html">CGU</a>
+      <a href="confidentialite.html">Confidentialité</a>
+      <a href="support.html">Support</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<a class="sticky-cta" data-sticky href="#telecharger">Télécharger Nestia gratuitement</a>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script>
+/* ============================================================
+   RÉGLAGES — à modifier ici uniquement
+   Collez entre les guillemets le lien de la fiche Nestia.
+   Tant qu'un lien est vide, le bouton affiche « Bientôt disponible ».
+   ============================================================ */
+var NESTIA = {
+  appStore:   "",   // ex : https://apps.apple.com/fr/app/nestia/id0000000000
+  googlePlay: "",   // ex : https://play.google.com/store/apps/details?id=com.nestia.app
+  email:      "nestiaap@gmail.com"
+};
+
+(function () {
+  var ua = navigator.userAgent || "";
+  var isAndroid = /android/i.test(ua);
+  var isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  var ICON_APPLE = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>';
+  var ICON_PLAY = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5v17l14-8.5z"/></svg>';
+
+  function button(store, extraClass) {
+    var isApple = store === "apple";
+    var url = isApple ? NESTIA.appStore : NESTIA.googlePlay;
+    var name = isApple ? "App Store" : "Google Play";
+    var ready = !!url;
+    var a = document.createElement("a");
+    a.className = "store" + (extraClass ? " " + extraClass : "");
+    a.href = ready ? url : "#contact";
+    if (ready) { a.target = "_blank"; a.rel = "noopener"; }
+    else { a.addEventListener("click", function () { toast("Nestia arrive bientôt sur " + name + " ! Écrivez-nous pour être prévenu."); }); }
+    var small = ready ? (isApple ? "Télécharger sur l'" : "Disponible sur") : "Bientôt disponible sur";
+    a.innerHTML = (isApple ? ICON_APPLE : ICON_PLAY) + '<span class="t"><small>' + small + '</small><b>' + name + '</b></span>';
+    return a;
+  }
+
+  // Ordre des boutons : la boutique du visiteur en premier
+  var first = isAndroid ? "play" : "apple";
+  var second = isAndroid ? "apple" : "play";
+
+  document.querySelectorAll("[data-stores]").forEach(function (box) {
+    var variant = box.getAttribute("data-variant") || "";
+    var both = box.hasAttribute("data-both");
+    if (variant === "on-dark") {
+      box.appendChild(button(first, "on-dark"));
+      box.appendChild(button(second, "on-dark"));
+    } else if ((isAndroid || isIOS) && !both) {
+      // Sur mobile : bouton principal plein + bouton secondaire clair
+      box.appendChild(button(first));
+      box.appendChild(button(second, "light"));
+    } else {
+      box.appendChild(button(first));
+      box.appendChild(button(second));
+    }
+  });
+
+  // Lien du bandeau collant mobile
+  var sticky = document.querySelector("[data-sticky]");
+  var main = isAndroid ? NESTIA.googlePlay : NESTIA.appStore;
+  if (main) { sticky.href = main; sticky.target = "_blank"; sticky.rel = "noopener"; }
+  var hero = document.querySelector(".hero");
+  var final = document.getElementById("telecharger");
+  function onScroll() {
+    var past = hero.getBoundingClientRect().bottom < 0;
+    var atEnd = final.getBoundingClientRect().top < window.innerHeight;
+    sticky.classList.toggle("show", past && !atEnd);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Email
+  var mail = document.querySelector("[data-mail]");
+  mail.href = "mailto:" + NESTIA.email + "?subject=" + encodeURIComponent("Question sur Nestia");
+  document.querySelector("[data-mail-text]").textContent = NESTIA.email;
+  document.querySelector("[data-copy]").addEventListener("click", function () {
+    var done = function () { toast("Adresse copiée : " + NESTIA.email); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(NESTIA.email).then(done, function () { fallbackCopy(); done(); });
+    } else { fallbackCopy(); done(); }
+  });
+  function fallbackCopy() {
+    var t = document.createElement("textarea");
+    t.value = NESTIA.email; t.setAttribute("readonly", ""); t.style.position = "absolute"; t.style.left = "-9999px";
+    document.body.appendChild(t); t.select(); try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(t);
+  }
+
+  var toastEl = document.querySelector("[data-toast]"), timer;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add("show");
+    clearTimeout(timer); timer = setTimeout(function () { toastEl.classList.remove("show"); }, 3200);
+  }
+})();
+</script>
+</body>
+</html>
